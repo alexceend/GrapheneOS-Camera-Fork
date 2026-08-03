@@ -610,6 +610,7 @@ open class MainActivity : AppCompatActivity(),
         camConfig = CamConfig(this)
         cameraControl = CameraControl(camConfig)
         mainOverlay = binding.mainOverlay
+        isoButton = binding.isoButton
         imageCapturer = ImageCapturer(this)
         videoCapturer = VideoCapturer(this)
         thirdOption = binding.thirdOption
@@ -927,8 +928,6 @@ open class MainActivity : AppCompatActivity(),
         focusRing = binding.focusRing
 
         micOffIcon = binding.micOff
-
-        isoButton = binding.isoButton
 
         previewView.viewTreeObserver.addOnPreDrawListener(
             object : ViewTreeObserver.OnPreDrawListener {

@@ -50,8 +50,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import app.grapheneos.camera.analyzer.QRAnalyzer
-import app.grapheneos.camera.ktx.markAs16by9Layout
-import app.grapheneos.camera.ktx.markAs4by3Layout
+import app.grapheneos.camera.ktx.applyPreviewRatio
 import app.grapheneos.camera.ui.activities.CaptureActivity
 import app.grapheneos.camera.ui.activities.MainActivity
 import app.grapheneos.camera.ui.activities.MoreSettings
@@ -254,7 +253,7 @@ class CamConfig(private val mActivity: MainActivity) {
     var imageCapture: ImageCapture? = null
         private set
 
-    private var preview: Preview? = null
+    var preview: Preview? = null
 
     val allowedFormats: ArrayList<BarcodeFormat> = arrayListOf()
 
@@ -1832,16 +1831,7 @@ class CamConfig(private val mActivity: MainActivity) {
 
         // Focus camera on touch/tap
         mActivity.previewView.setOnTouchListener(mActivity)
-        mActivity.previewView.apply {
-            when (aspectRatio) {
-                AspectRatio.RATIO_16_9 -> {
-                    markAs16by9Layout()
-                }
-                AspectRatio.RATIO_4_3 -> {
-                    markAs4by3Layout()
-                }
-            }
-        }
+        camera?.cameraInfo?.let { mActivity.previewView.applyPreviewRatio(aspectRatio, it) }
 
         if (isInPhotoMode) {
             mActivity.sensorNotifier?.forceUpdateGyro()
